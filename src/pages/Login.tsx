@@ -22,10 +22,11 @@ const Login: FC = () => {
             alt="ShopMate Logo" 
             className="w-12 h-12 object-cover rounded-lg mr-3"
           />
-          <h1 className="text-2xl font-bold text-gray-800">ShopMate App</h1>
+          <h1 className="text-3xl font-bold text-[#26A91F]">ShopMate App</h1>
         </div>
         
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Sign In</h2>
+        
+        <h2 className="text-2xl font-bold mb-8 text-center text-[#26A91F]">Sign In</h2>
         
         <form onSubmit={handleLogin} className="space-y-6">
           <div>

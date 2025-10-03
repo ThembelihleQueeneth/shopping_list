@@ -27,11 +27,11 @@ const Register: FC = () => {
             alt="ShopMate Logo" 
             className="w-12 h-12 object-cover rounded-lg mr-3"
           />
-          <h1 className="text-2xl font-bold text-gray-800">ShopMate App</h1>
+          <h1 className="text-3xl font-bold text-[#26A91F]">ShopMate App</h1>
         </div>
         
         {/* Create Account Title */}
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Create Account</h2>
+        <h2 className="text-2xl font-bold mb-8 text-center text-[#26A91F]">Create Account</h2>
         
         <form onSubmit={handleRegister}>
           {/* First row - Name and Surname */}
