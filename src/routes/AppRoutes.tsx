@@ -3,6 +3,8 @@ import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { Home } from "../pages/Home";
+import { ListDetails } from "../pages/ListDetails";
+import { ProfilePage } from "../pages/ProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -12,6 +14,8 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home/>} />
+        <Route path="/details" element={<ListDetails/>} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );
