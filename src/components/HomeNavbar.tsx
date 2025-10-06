@@ -7,7 +7,6 @@ export const HomeNavbar = () => {
   const [darkMode, setDarkMode] = useState(false)
   const menuRef = useRef(null)
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -46,7 +45,6 @@ export const HomeNavbar = () => {
 
   return (
     <nav className='flex justify-between items-center bg-gray-50 px-6 py-4 shadow-sm'>
-      {/* Logo Section */}
       <div className='flex items-center space-x-3'>
         <img 
           src={logo} 
@@ -56,7 +54,6 @@ export const HomeNavbar = () => {
         <h5 className='text-xl font-bold text-green-700'>ShopMate App</h5>
       </div>
 
-      {/* Search Section */}
       <div className='flex-1 max-w-lg mx-8'>
         <div className='relative'>
           <input 
@@ -68,11 +65,9 @@ export const HomeNavbar = () => {
         </div>
       </div>
 
-      {/* User Section */}
       <div className='flex items-center space-x-4 relative' ref={menuRef}>
         <h3 className='text-gray-700 font-medium'>Welcome back, User!</h3>
         
-        {/* User Icon with Dropdown */}
         <div className='relative'>
           <button 
             onClick={toggleMenu}
@@ -81,16 +76,13 @@ export const HomeNavbar = () => {
             <FaUser className="h-5 w-5 text-green-700" />
           </button>
 
-          {/* Dropdown Menu */}
           {isMenuOpen && (
             <div className='absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50'>
-              {/* User Info */}
               <div className='px-4 py-3 border-b border-gray-100'>
                 <p className='text-sm font-medium text-gray-900'>John Doe</p>
                 <p className='text-sm text-gray-500'>john.doe@example.com</p>
               </div>
 
-              {/* Menu Items */}
               <div className='py-1'>
                 <button 
                   onClick={() => setIsMenuOpen(false)}
@@ -98,24 +90,6 @@ export const HomeNavbar = () => {
                 >
                   <FaEye className="h-4 w-4 text-gray-500 mr-3" />
                   View Profile
-                </button>
-
-                {/* Dark Mode Toggle */}
-                <button 
-                  onClick={toggleDarkMode}
-                  className='flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150'
-                >
-                  {darkMode ? (
-                    <>
-                      <FaSun className="h-4 w-4 text-yellow-500 mr-3" />
-                      Light Mode
-                    </>
-                  ) : (
-                    <>
-                      <FaMoon className="h-4 w-4 text-gray-500 mr-3" />
-                      Dark Mode
-                    </>
-                  )}
                 </button>
 
                 <div className='border-t border-gray-100 my-1'></div>
