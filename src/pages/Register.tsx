@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import Input from "../components/Input";
-import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import logo from '../assets/logo.jpg';
 
@@ -20,7 +19,6 @@ const Register: FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl">
-        {/* Logo and App Name */}
         <div className="flex items-center justify-center mb-8">
           <img 
             src={logo} 
@@ -30,11 +28,9 @@ const Register: FC = () => {
           <h1 className="text-3xl font-bold text-[#26A91F]">ShopMate App</h1>
         </div>
         
-        {/* Create Account Title */}
         <h2 className="text-2xl font-bold mb-8 text-center text-[#26A91F]">Create Account</h2>
         
         <form onSubmit={handleRegister}>
-          {/* First row - Name and Surname */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -60,7 +56,6 @@ const Register: FC = () => {
             </div>
           </div>
 
-          {/* Second row - Email and Cellphone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -88,7 +83,6 @@ const Register: FC = () => {
             </div>
           </div>
 
-          {/* Third row - Password and Confirm Password */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -116,15 +110,9 @@ const Register: FC = () => {
             </div>
           </div>
           
-          {/* Sign Up Button */}
-          <Button 
-            text="Sign Up" 
-            type="submit" 
-            className="w-full bg-[#26A91F] text-white py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 font-semibold"
-          />
+          <button className="w-full bg-[#26A91F] text-white py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 font-semibold">Sign Up</button>
         </form>
         
-        {/* Sign In Link */}
         <p className="mt-6 text-sm text-center text-gray-600">
           Already have an account?{" "}
           <Link to="/login" className="text-[#26A91F] hover:underline font-medium">
