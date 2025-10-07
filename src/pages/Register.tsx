@@ -1,19 +1,48 @@
 import { FC, useState } from "react";
-import Input from "../components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch,RootState   } from "../store/store";
+import { RegisterUser } from "../features/register_slice/RegisterSlice";
 import { Link } from "react-router-dom";
 import logo from '../assets/logo.jpg';
 
 const Register: FC = () => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [cellphone, setCellphone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector((state: RootState) => state.register);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    cellphone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Register with:", { name, surname, email, cellphone, password, confirmPassword });
+    
+    // Basic validation
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    // Dispatch register action
+    dispatch(registerUser({
+      name: formData.name,
+      surname: formData.surname,
+      email: formData.email,
+      cellphone: formData.cellphone,
+      password: formData.password,
+    }));
   };
 
   return (
@@ -30,6 +59,12 @@ const Register: FC = () => {
         
         <h2 className="text-2xl font-bold mb-8 text-center text-[#26A91F]">Create Account</h2>
         
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+        
         <form onSubmit={handleRegister}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -37,10 +72,12 @@ const Register: FC = () => {
                 Name:
               </label>
               <Input
+                name="name"
                 placeholder="Enter Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
             <div>
@@ -48,10 +85,12 @@ const Register: FC = () => {
                 Surname:
               </label>
               <Input
+                name="surname"
                 placeholder="Enter Surname"
-                value={surname}
-                onChange={(e) => setSurname(e.target.value)}
+                value={formData.surname}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
           </div>
@@ -63,10 +102,12 @@ const Register: FC = () => {
               </label>
               <Input
                 type="email"
+                name="email"
                 placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
             <div>
@@ -75,10 +116,12 @@ const Register: FC = () => {
               </label>
               <Input
                 type="tel"
+                name="cellphone"
                 placeholder="Enter Cellphone"
-                value={cellphone}
-                onChange={(e) => setCellphone(e.target.value)}
+                value={formData.cellphone}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
           </div>
@@ -90,10 +133,12 @@ const Register: FC = () => {
               </label>
               <Input
                 type="password"
+                name="password"
                 placeholder="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
             <div>
@@ -102,15 +147,23 @@ const Register: FC = () => {
               </label>
               <Input
                 type="password"
+                name="confirmPassword"
                 placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="w-full"
+                required
               />
             </div>
           </div>
           
-          <button className="w-full bg-[#26A91F] text-white py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 font-semibold">Sign Up</button>
+          <button 
+            type="submit"
+            disabled={loading}
+            className="w-full bg-[#26A91F] text-white py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Creating Account..." : "Sign Up"}
+          </button>
         </form>
         
         <p className="mt-6 text-sm text-center text-gray-600">

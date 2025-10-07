@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import registerReducer
 
 export const store = configureStore({
   reducer: {
-    //To be added
+    register: registerReducer,
+    // other reducers...
   },
 });
 
