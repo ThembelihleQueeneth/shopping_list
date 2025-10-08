@@ -1,11 +1,20 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk,  type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+
+interface User {
+  id?: number;
+  name?: string;
+  surname?: string;
+  email: string;
+  password: string;
+  cellphone?: string;
+}
 
 interface LoginState {
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  user: any | null;
+  user: User | null;
 }
 
 const initialState: LoginState = {
@@ -15,6 +24,7 @@ const initialState: LoginState = {
   user: null,
 };
 
+// Async thunk for logging in
 export const loginUser = createAsyncThunk(
   "login/loginUser",
   async (
@@ -53,6 +63,11 @@ const loginSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
     },
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,5 +87,5 @@ const loginSlice = createSlice({
   },
 });
 
-export const { logout } = loginSlice.actions;
+export const { logout, updateUser } = loginSlice.actions;
 export default loginSlice.reducer;

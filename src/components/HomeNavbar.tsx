@@ -87,6 +87,7 @@ export const HomeNavbar = () => {
               </div>
 
               <div className='py-1'>
+                <Link to="/profile">
                 <button 
                   onClick={() => setIsMenuOpen(false)}
                   className='flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150'
@@ -94,6 +95,7 @@ export const HomeNavbar = () => {
                   <FaEye className="h-4 w-4 text-gray-500 mr-3" />
                   View Profile
                 </button>
+                </Link>
 
                 <div className='border-t border-gray-100 my-1'></div>
                 
