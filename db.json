@@ -2,27 +2,126 @@
   "users": [
     {
       "id": "18cc",
-      "name": "Thembelihle Queeneth",
+      "name": "Thembelihle",
       "surname": "Maluka",
       "email": "malukathembelihle95@gmail.com",
       "cellphone": "0793316193",
       "password": "12345"
     },
     {
-      "id": "7315",
-      "name": "Thembelihle Queeneth",
-      "surname": "Maluka",
-      "email": "malukathembelihle95@gmail.com",
-      "cellphone": "0793316193",
-      "password": "12345"
+      "id": "1570",
+      "name": "Josh",
+      "surname": "Green",
+      "email": "josh@gmail.com",
+      "cellphone": "10111",
+      "password": "123"
+    }
+  ],
+  "lists": [
+    {
+      "id": "8c1a",
+      "name": "Fruits",
+      "items": 3,
+      "date": "10/8/2025",
+      "userId": "1570",
+      "groceryItems": [
+        {
+          "id": "1",
+          "name": "Apples",
+          "quantity": 6,
+          "category": "Fruit",
+          "completed": false
+        },
+        {
+          "id": "2",
+          "name": "Bananas",
+          "quantity": 4,
+          "category": "Fruit",
+          "completed": true
+        },
+        {
+          "id": "3",
+          "name": "Oranges",
+          "quantity": 8,
+          "category": "Fruit",
+          "completed": false
+        }
+      ]
     },
     {
-      "id": "4b08",
-      "name": "Thembelihle Queeneth",
-      "surname": "Maluka",
-      "email": "malukathembelihle95@gmail.com",
-      "cellphone": "0793316193",
-      "password": "12345"
+      "id": "8d7f",
+      "name": "Baking Muffins",
+      "items": 2,
+      "date": "10/8/2025",
+      "userId": "18cc",
+      "groceryItems": [
+        {
+          "id": "4",
+          "name": "Flour",
+          "quantity": 1,
+          "category": "Baking",
+          "completed": false
+        },
+        {
+          "id": "5",
+          "name": "Chocolate Chips",
+          "quantity": 1,
+          "category": "Baking",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "9e7b",
+      "name": "Pasta Dinner",
+      "items": 4,
+      "date": "10/8/2025",
+      "userId": "1570",
+      "groceryItems": [
+        {
+          "id": "6",
+          "name": "Pasta",
+          "quantity": 1,
+          "category": "Pantry",
+          "completed": true
+        },
+        {
+          "id": "7",
+          "name": "Tomato Sauce",
+          "quantity": 1,
+          "category": "Condiments",
+          "completed": false
+        },
+        {
+          "id": "8",
+          "name": "Parmesan Cheese",
+          "quantity": 1,
+          "category": "Dairy",
+          "completed": false
+        },
+        {
+          "id": "9",
+          "name": "Ground Beef",
+          "quantity": 1,
+          "category": "Meat",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "id": "9de0",
+      "name": "Alcohol for the party",
+      "items": 0,
+      "date": "10/8/2025",
+      "groceryItems": []
+    },
+    {
+      "id": "8qscby0j6",
+      "name": "Fruits",
+      "items": 0,
+      "date": "10/8/2025",
+      "userId": "18cc",
+      "groceryItems": []
     }
   ]
 }

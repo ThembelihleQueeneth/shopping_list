@@ -1,89 +1,191 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { type RootState, type AppDispatch } from "../store/store";
+import { 
+  fetchUserLists, 
+  addList, 
+  deleteList, 
+  type List 
+} from "../features/list_slice/listSlice";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
 export const Card = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { lists = [], loading = false, error = null } = useSelector((state: RootState) => state.lists || {});
+  
+  // In a real app, you'd get this from auth context or user store
+  const [currentUserId] = useState("18cc"); // Hardcoded for now - replace with actual user ID
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listName, setListName] = useState("");
-  const [openMenu, setOpenMenu] = useState<number | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  useEffect(() => {
+    dispatch(fetchUserLists(currentUserId));
+  }, [dispatch, currentUserId]);
 
   const handleAddList = () => {
-    console.log("New List:", listName);
-    setListName("");
-    setIsModalOpen(false);
+    if (listName.trim() === "") return;
+    dispatch(addList({ name: listName, userId: currentUserId }))
+      .unwrap()
+      .then(() => {
+        setListName("");
+        setIsModalOpen(false);
+      })
+      .catch((err) => {
+        console.error("Failed to add list:", err);
+      });
   };
 
-  const toggleMenu = (index: number) => {
-    setOpenMenu(openMenu === index ? null : index);
+  const handleDeleteList = (id: string) => {
+    dispatch(deleteList(id))
+      .unwrap()
+      .catch((err) => {
+        console.error("Failed to delete list:", err);
+      });
+    setOpenMenu(null);
   };
+
+  const toggleMenu = (listId: string) => {
+    setOpenMenu(openMenu === listId ? null : listId);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenMenu(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
       {/* Header */}
       <div className="flex mt-10 mb-10 justify-between items-center bg-white rounded-lg shadow-md px-6 py-4 max-w-4xl mx-auto">
-        <h1 className="text-xl font-semibold text-gray-800">3 Shopping Lists</h1>
+        <h1 className="text-xl font-semibold text-gray-800">
+          {lists.length} Shopping List{lists.length !== 1 ? 's' : ''}
+        </h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-[#26A91F] text-white px-4 py-2 rounded-lg hover:bg-[#1f8c1a] transition duration-200 font-medium"
+          disabled={loading}
         >
-          Add New List +
+          {loading ? "Loading..." : "Add New List +"}
         </button>
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="max-w-4xl mx-auto mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          Error: {error}
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading && lists.length === 0 && (
+        <div className="max-w-4xl mx-auto text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading lists...</p>
+        </div>
+      )}
+
       {/* Cards */}
       <div className="space-y-4 max-w-4xl mx-auto">
-        {[
-          { name: "Monthly Grocery", items: 12, date: "Jan 15, 2024" },
-          { name: "Weekly Essentials", items: 8, date: "Jan 12, 2024" },
-          { name: "Party Shopping", items: 15, date: "Jan 10, 2024" },
-        ].map((list, index) => (
-          <div
-            key={index}
-            className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100"
-          >
-            <div>
-              <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                {list.name}
-              </h2>
-              <p className="text-sm text-gray-600">
-                {list.items} items • Created: {list.date}
-              </p>
-            </div>
-
-            {/* Ellipsis Button */}
-            <button
-              onClick={() => toggleMenu(index)}
-              className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
-            >
-              <FaEllipsisVertical className="h-5 w-5" />
-            </button>
-
-            {/* Dropdown Menu */}
-            {openMenu === index && (
-              <div className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10">
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  View Items
-                </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  Edit List
-                </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                  Delete List
-                </button>
-              </div>
-            )}
+        {lists.length === 0 && !loading ? (
+          <div className="text-center py-8 text-gray-500">
+            No shopping lists found. Create your first list!
           </div>
-        ))}
+        ) : (
+          lists.map((list: List) => (
+            <div
+              key={list.id}
+              className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100"
+            >
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold text-gray-800 mb-1">{list.name}</h2>
+                <p className="text-sm text-gray-600">
+                  {list.items} item{list.items !== 1 ? 's' : ''} • Created: {list.date}
+                </p>
+                {list.groceryItems && list.groceryItems.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-xs text-gray-500 mb-1">Items:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {list.groceryItems.slice(0, 3).map((item) => (
+                        <span 
+                          key={item.id}
+                          className={`text-xs px-2 py-1 rounded-full ${
+                            item.completed 
+                              ? 'bg-green-100 text-green-800 line-through' 
+                              : 'bg-blue-100 text-blue-800'
+                          }`}
+                        >
+                          {item.name} {item.quantity > 1 ? `(${item.quantity})` : ''}
+                        </span>
+                      ))}
+                      {list.groceryItems.length > 3 && (
+                        <span className="text-xs text-gray-500">
+                          +{list.groceryItems.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Ellipsis Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMenu(list.id!);
+                }}
+                className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
+                disabled={loading}
+              >
+                <FaEllipsisVertical className="h-5 w-5" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {openMenu === list.id && (
+                <div 
+                  className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    View Items
+                  </button>
+                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Edit List
+                  </button>
+                  <button
+                    onClick={() => list.id && handleDeleteList(list.id)}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                    disabled={loading}
+                  >
+                    {loading ? "Deleting..." : "Delete List"}
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0  flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
-            {/* Close Button */}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div 
+            className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              disabled={loading}
             >
               <IoClose size={24} />
             </button>
@@ -95,13 +197,24 @@ export const Card = () => {
               onChange={(e) => setListName(e.target.value)}
               placeholder="Enter list name..."
               className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+              onKeyPress={(e) => e.key === 'Enter' && handleAddList()}
             />
-            <button
-              onClick={handleAddList}
-              className="w-full bg-[#26A91F] text-white px-4 py-2 rounded-md hover:bg-[#1f8c1a] transition duration-200"
-            >
-              Save List
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddList}
+                disabled={!listName.trim() || loading}
+                className="flex-1 bg-[#26A91F] text-white px-4 py-2 rounded-md hover:bg-[#1f8c1a] disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200"
+              >
+                {loading ? "Saving..." : "Save List"}
+              </button>
+            </div>
           </div>
         </div>
       )}
