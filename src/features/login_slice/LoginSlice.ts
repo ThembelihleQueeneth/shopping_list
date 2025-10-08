@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk,  type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface User {
@@ -17,14 +17,16 @@ interface LoginState {
   user: User | null;
 }
 
+const storedUser = localStorage.getItem("user");
+
 const initialState: LoginState = {
   loading: false,
   error: null,
-  isAuthenticated: false,
-  user: null,
+  isAuthenticated: storedUser ? true : false,
+  user: storedUser ? JSON.parse(storedUser) : null,
 };
 
-// Async thunk for logging in
+// Login user from db.json
 export const loginUser = createAsyncThunk(
   "login/loginUser",
   async (
@@ -32,7 +34,7 @@ export const loginUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.get("http://localhost:5000/users", {
+      const response = await axios.get("http://localhost:3000/users", {
         params: { email },
       });
 
@@ -48,7 +50,25 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue("Invalid password");
       }
 
+      // Save user to localStorage for persistence
+      localStorage.setItem("user", JSON.stringify(user));
+
       return user;
+    } catch (err: any) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+// Update user in db.json and Redux
+export const updateUserInDB = createAsyncThunk(
+  "login/updateUserInDB",
+  async ({ id, data }: { id: number; data: Partial<User> }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(`http://localhost:3000/users/${id}`, data);
+      // Update localStorage
+      localStorage.setItem("user", JSON.stringify(response.data));
+      return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
@@ -62,20 +82,17 @@ const loginSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-    },
-    updateUser: (state, action: PayloadAction<Partial<User>>) => {
-      if (state.user) {
-        state.user = { ...state.user, ...action.payload };
-      }
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
     builder
+      // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
@@ -83,9 +100,22 @@ const loginSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      // Update user
+      .addCase(updateUserInDB.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserInDB.fulfilled, (state, action: PayloadAction<User>) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserInDB.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { logout, updateUser } = loginSlice.actions;
+export const { logout } = loginSlice.actions;
 export default loginSlice.reducer;

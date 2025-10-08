@@ -2,31 +2,23 @@ import { useState, useEffect } from 'react'
 import { FaUser, FaEdit, FaSave, FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { type RootState, type AppDispatch } from '../store/store'
-import { updateUser } from '../features/login_slice/LoginSlice'
+import { updateUserInDB } from '../features/login_slice/LoginSlice'
 
 export const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { user } = useSelector((state: RootState) => state.login)
+  const { user, loading } = useSelector((state: RootState) => state.login)
 
   const [isEditing, setIsEditing] = useState(false)
-  const [userData, setUserData] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     surname: '',
     email: '',
     cellphone: '',
     password: ''
   })
-  const [formData, setFormData] = useState({ ...userData })
 
   useEffect(() => {
     if (user) {
-      setUserData({
-        name: user.name || '',
-        surname: user.surname || '',
-        email: user.email || '',
-        cellphone: user.cellphone || '',
-        password: user.password || ''
-      })
       setFormData({
         name: user.name || '',
         surname: user.surname || '',
@@ -40,23 +32,27 @@ export const ProfilePage = () => {
   const handleEdit = () => setIsEditing(true)
 
   const handleSave = () => {
-    setUserData({ ...formData })
+    if (user?.id) {
+      dispatch(updateUserInDB({ id: user.id, data: formData }))
+    }
     setIsEditing(false)
-    console.log('Saving user data:', formData)
-    // ✅ Dispatch to Redux
-    dispatch(updateUser(formData))
   }
 
   const handleCancel = () => {
-    setFormData({ ...userData })
+    if (user) {
+      setFormData({
+        name: user.name || '',
+        surname: user.surname || '',
+        email: user.email || '',
+        cellphone: user.cellphone || '',
+        password: user.password || ''
+      })
+    }
     setIsEditing(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -71,7 +67,7 @@ export const ProfilePage = () => {
               </div>
               <div>
                 <h1 className='text-2xl font-bold text-gray-900'>
-                  {userData.name} {userData.surname}
+                  {formData.name} {formData.surname}
                 </h1>
                 <p className='text-gray-500'>Personal Information</p>
               </div>
@@ -92,7 +88,7 @@ export const ProfilePage = () => {
                   className='flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200'
                 >
                   <FaSave className="h-4 w-4" />
-                  <span>Save</span>
+                  <span>{loading ? 'Saving...' : 'Save'}</span>
                 </button>
                 <button
                   onClick={handleCancel}
@@ -111,7 +107,6 @@ export const ProfilePage = () => {
           <h2 className='text-lg font-semibold text-gray-900 mb-6'>Profile Details</h2>
 
           <div className='space-y-6'>
-            {/* Name / Surname */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>First Name</label>
@@ -124,10 +119,9 @@ export const ProfilePage = () => {
                     className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
                   />
                 ) : (
-                  <p className='px-3 py-2'>{userData.name}</p>
+                  <p className='px-3 py-2'>{formData.name}</p>
                 )}
               </div>
-
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>Last Name</label>
                 {isEditing ? (
@@ -139,12 +133,11 @@ export const ProfilePage = () => {
                     className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
                   />
                 ) : (
-                  <p className='px-3 py-2'>{userData.surname}</p>
+                  <p className='px-3 py-2'>{formData.surname}</p>
                 )}
               </div>
             </div>
 
-            {/* Email */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-2'>Email Address</label>
               {isEditing ? (
@@ -156,11 +149,10 @@ export const ProfilePage = () => {
                   className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
                 />
               ) : (
-                <p className='px-3 py-2'>{userData.email}</p>
+                <p className='px-3 py-2'>{formData.email}</p>
               )}
             </div>
 
-            {/* Cellphone */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-2'>Phone Number</label>
               {isEditing ? (
@@ -172,11 +164,10 @@ export const ProfilePage = () => {
                   className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
                 />
               ) : (
-                <p className='px-3 py-2'>{userData.cellphone}</p>
+                <p className='px-3 py-2'>{formData.cellphone}</p>
               )}
             </div>
 
-            {/* Password */}
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-2'>Password</label>
               {isEditing ? (
@@ -190,7 +181,7 @@ export const ProfilePage = () => {
                 />
               ) : (
                 <div className='flex items-center space-x-2'>
-                  <p className='px-3 py-2'>{userData.password}</p>
+                  <p className='px-3 py-2'>{formData.password}</p>
                   <span className='text-xs text-gray-500'>(Click edit to change password)</span>
                 </div>
               )}
