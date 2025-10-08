@@ -71,7 +71,7 @@ const Register: FC = () => {
         <form onSubmit={handleRegister}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 ">
                 Name:
               </label>
               <input 
@@ -79,7 +79,7 @@ const Register: FC = () => {
                 placeholder="Enter Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
                />
             </div>
@@ -92,7 +92,7 @@ const Register: FC = () => {
                 placeholder="Enter Surname"
                 value={formData.surname}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
                />
             </div>
@@ -109,7 +109,7 @@ const Register: FC = () => {
                 placeholder="Enter Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
                />
             </div>
@@ -124,7 +124,7 @@ const Register: FC = () => {
                 placeholder="Enter Cellphone"
                 value={formData.cellphone}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
             </div>
@@ -141,7 +141,7 @@ const Register: FC = () => {
                 placeholder="Enter Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required />
             </div>
             <div>
@@ -154,7 +154,7 @@ const Register: FC = () => {
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full"
+                className="px-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required />
             </div>
           </div>
