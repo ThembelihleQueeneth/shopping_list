@@ -1,14 +1,6 @@
 {
   "users": [
     {
-      "id": "08c0",
-      "name": "Thembelihle Queeneth",
-      "surname": "Maluka",
-      "email": "malukathembelihle95@gmail.com",
-      "cellphone": "0793316193",
-      "password": "12345"
-    },
-    {
       "id": "18cc",
       "name": "Thembelihle Queeneth",
       "surname": "Maluka",
@@ -31,14 +23,6 @@
       "email": "malukathembelihle95@gmail.com",
       "cellphone": "0793316193",
       "password": "12345"
-    },
-    {
-      "id": "16fe",
-      "name": "Percy",
-      "surname": "Khumalo",
-      "email": "percy@gmail.com",
-      "cellphone": "0716167939",
-      "password": "2222"
     }
   ]
 }
