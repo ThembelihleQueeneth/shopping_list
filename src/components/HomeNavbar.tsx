@@ -1,10 +1,9 @@
 import logo from '../assets/logo.jpg'
-import { FaSearch, FaUser, FaEye, FaSignOutAlt, FaTrash, FaMoon, FaSun } from 'react-icons/fa'
+import { FaSearch, FaUser, FaEye, FaSignOutAlt, FaTrash} from 'react-icons/fa'
 import { useState, useRef, useEffect } from 'react'
 
 export const HomeNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [darkMode, setDarkMode] = useState(false)
   const menuRef = useRef(null)
 
   useEffect(() => {
@@ -24,15 +23,7 @@ export const HomeNavbar = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-    if (!darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
-
+  
   const handleLogout = () => {
     console.log('Logging out...')
     setIsMenuOpen(false)
