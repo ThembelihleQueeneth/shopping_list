@@ -5,6 +5,7 @@ import Register from "../pages/Register";
 import { Home } from "../pages/Home";
 import { ListDetails } from "../pages/ListDetails";
 import { ProfilePage } from "../pages/ProfilePage";
+import { ViewItems } from "../components/ViewItems";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/home" element={<Home/>} />
         <Route path="/details" element={<ListDetails/>} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/lists/:listId" element={<ViewItems />} />
       </Routes>
     </BrowserRouter>
   );

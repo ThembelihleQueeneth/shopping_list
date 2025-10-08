@@ -51,7 +51,7 @@
     {
       "id": "8d7f",
       "name": "Baking Muffins",
-      "items": 2,
+      "items": 6,
       "date": "10/8/2025",
       "userId": "18cc",
       "groceryItems": [
@@ -68,6 +68,38 @@
           "quantity": 1,
           "category": "Baking",
           "completed": false
+        },
+        {
+          "name": "Eggs",
+          "quantity": 1,
+          "category": "Uncategorized",
+          "completed": false,
+          "listId": "8d7f",
+          "id": "1759963817851"
+        },
+        {
+          "name": "dd",
+          "quantity": 1,
+          "category": "Uncategorized",
+          "completed": false,
+          "listId": "8d7f",
+          "id": "1759963847843"
+        },
+        {
+          "name": "Pink",
+          "quantity": 1,
+          "category": "Pantry",
+          "completed": false,
+          "listId": "8d7f",
+          "id": "1759964341013"
+        },
+        {
+          "name": "test2",
+          "quantity": 1,
+          "category": "Snacks",
+          "completed": false,
+          "listId": "8d7f",
+          "id": "1759964405785"
         }
       ]
     },
@@ -118,6 +150,39 @@
     {
       "id": "1acd",
       "name": "Gogo's Party",
+      "userId": "18cc",
+      "items": 1,
+      "date": "10/9/2025",
+      "groceryItems": [
+        {
+          "name": "Meat",
+          "quantity": 1,
+          "category": "Meat & Seafood",
+          "completed": false,
+          "listId": "1acd",
+          "id": "1759964558516"
+        }
+      ]
+    },
+    {
+      "id": "533d",
+      "name": "testing",
+      "userId": "18cc",
+      "items": 0,
+      "date": "10/9/2025",
+      "groceryItems": []
+    },
+    {
+      "id": "6518",
+      "name": "Testing",
+      "userId": "18cc",
+      "items": 0,
+      "date": "10/9/2025",
+      "groceryItems": []
+    },
+    {
+      "id": "fb6f",
+      "name": "testing 2",
       "userId": "18cc",
       "items": 0,
       "date": "10/9/2025",

@@ -119,27 +119,14 @@ export const Card = () => {
                   </p>
                   {list.groceryItems?.length > 0 && (
                     <div className="mt-2">
-                      <p className="text-xs text-gray-500 mb-1">Items:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {list.groceryItems.slice(0, 3).map((item) => (
-                          <span 
-                            key={item.id}
-                            className={`text-xs px-2 py-1 rounded-full ${
-                              item.completed 
-                                ? 'bg-green-100 text-green-800 line-through' 
-                                : 'bg-blue-100 text-blue-800'
-                            }`}
-                          >
-                            {item.name} {item.quantity > 1 ? `(${item.quantity})` : ''}
-                          </span>
-                        ))}
+                      
                         {list.groceryItems.length > 3 && (
                           <span className="text-xs text-gray-500">
                             +{list.groceryItems.length - 3} more
                           </span>
                         )}
                       </div>
-                    </div>
+                   
                   )}
                 </div>
 
