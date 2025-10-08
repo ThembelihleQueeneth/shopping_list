@@ -1,14 +1,21 @@
 import logo from '../assets/logo.jpg'
-import { FaSearch, FaUser, FaEye, FaSignOutAlt, FaTrash} from 'react-icons/fa'
+import { FaSearch, FaUser, FaEye, FaSignOutAlt, FaTrash } from 'react-icons/fa'
 import { useState, useRef, useEffect } from 'react'
+import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { type RootState, type AppDispatch } from "../store/store"
+import { logout } from "../features/login_slice/LoginSlice"
 
 export const HomeNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef(null)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.login)
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    const handleClickOutside = (event: any) => {
+      if (menuRef.current && !(menuRef.current as any).contains(event.target)) {
         setIsMenuOpen(false)
       }
     }
@@ -23,9 +30,8 @@ export const HomeNavbar = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  
   const handleLogout = () => {
-    console.log('Logging out...')
+    dispatch(logout())
     setIsMenuOpen(false)
   }
 
@@ -57,7 +63,9 @@ export const HomeNavbar = () => {
       </div>
 
       <div className='flex items-center space-x-4 relative' ref={menuRef}>
-        <h3 className='text-gray-700 font-medium'>Welcome back, User!</h3>
+        <h3 className='text-gray-700 font-medium'>
+          {isAuthenticated && user ? `Welcome back, ${user.name}!` : "Welcome!"}
+        </h3>
         
         <div className='relative'>
           <button 
@@ -70,8 +78,12 @@ export const HomeNavbar = () => {
           {isMenuOpen && (
             <div className='absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50'>
               <div className='px-4 py-3 border-b border-gray-100'>
-                <p className='text-sm font-medium text-gray-900'>John Doe</p>
-                <p className='text-sm text-gray-500'>john.doe@example.com</p>
+                <p className='text-sm font-medium text-gray-900'>
+                  {user?.name || "Guest"}
+                </p>
+                <p className='text-sm text-gray-500'>
+                  {user?.email || ""}
+                </p>
               </div>
 
               <div className='py-1'>
@@ -84,14 +96,16 @@ export const HomeNavbar = () => {
                 </button>
 
                 <div className='border-t border-gray-100 my-1'></div>
-
-                <button 
-                  onClick={handleLogout}
-                  className='flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition duration-150'
-                >
-                  <FaSignOutAlt className="h-4 w-4 mr-3" />
-                  Logout
-                </button>
+                
+                <Link to="/">
+                  <button 
+                    onClick={handleLogout}
+                    className='flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition duration-150'
+                  >
+                    <FaSignOutAlt className="h-4 w-4 mr-3" />
+                    Logout
+                  </button>
+                </Link>
 
                 <button 
                   onClick={handleDelete}

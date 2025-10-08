@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
 
+
 const Register: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector((state: RootState) => state.register);

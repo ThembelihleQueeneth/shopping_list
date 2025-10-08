@@ -1,12 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-interface RegisterState {
-  loading: boolean;
-  error: string | null;
-  success: boolean;
-}
-
-interface RegisterPayload {
+export interface User {
+  id?: number;
   name: string;
   surname: string;
   email: string;
@@ -14,24 +10,24 @@ interface RegisterPayload {
   password: string;
 }
 
+interface RegisterState {
+  loading: boolean;
+  error: string | null;
+}
+
 const initialState: RegisterState = {
   loading: false,
   error: null,
-  success: false,
 };
 
-// Async thunk (simulating API call)
 export const registerUser = createAsyncThunk(
   "register/registerUser",
-  async (userData: RegisterPayload, { rejectWithValue }) => {
+  async (userData: User, { rejectWithValue }) => {
     try {
-      // Simulate API request
-      const response = await new Promise<{ message: string }>((resolve) =>
-        setTimeout(() => resolve({ message: "User registered successfully!" }), 1500)
-      );
-      return response.message;
-    } catch (error) {
-      return rejectWithValue(error + "Failed to register user.");
+      const response = await axios.post("http://localhost:5000/users", userData);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -45,11 +41,10 @@ const registerSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.success = false;
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
-        state.success = true;
+        state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
