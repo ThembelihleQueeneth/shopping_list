@@ -1,5 +1,4 @@
-import { FC, useState } from "react";
-import Input from "../components/Input";
+import { type FC, useState } from "react";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import logo from '../assets/logo.jpg'
@@ -33,26 +32,24 @@ const Login: FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email:
             </label>
-            <Input
+            <input 
               type="email"
               placeholder="Enter Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full"
-            />
+              className="w-full" />
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password:
             </label>
-            <Input
+            <input 
               type="password"
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full"
-            />
+              className="w-full"/>
           </div>
           
           <Button 
