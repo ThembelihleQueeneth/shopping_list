@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState, type AppDispatch } from "../store/store";
 import { 
@@ -9,42 +9,56 @@ import {
 } from "../features/list_slice/listSlice";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 export const Card = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { lists = [], loading = false, error = null } = useSelector((state: RootState) => state.lists || {});
-  
-  // In a real app, you'd get this from auth context or user store
-  const [currentUserId] = useState("18cc"); // Hardcoded for now - replace with actual user ID
+  const { lists = [], loading = false, error = null } = useSelector((state: RootState) => (state as any).lists ?? { lists: [], loading: false, error: null });
 
+  const [currentUserId] = useState("18cc");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [listName, setListName] = useState("");
+  const [listToDelete, setListToDelete] = useState<List | null>(null);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     dispatch(fetchUserLists(currentUserId));
   }, [dispatch, currentUserId]);
 
   const handleAddList = () => {
-    if (listName.trim() === "") return;
+    if (!listName.trim()) return;
     dispatch(addList({ name: listName, userId: currentUserId }))
       .unwrap()
       .then(() => {
         setListName("");
         setIsModalOpen(false);
       })
-      .catch((err) => {
-        console.error("Failed to add list:", err);
-      });
+      .catch((err) => console.error("Failed to add list:", err));
   };
 
-  const handleDeleteList = (id: string) => {
-    dispatch(deleteList(id))
-      .unwrap()
-      .catch((err) => {
-        console.error("Failed to delete list:", err);
-      });
+  const handleDeleteClick = (list: List) => {
+    setListToDelete(list);
+    setIsDeleteModalOpen(true);
     setOpenMenu(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (listToDelete) {
+      dispatch(deleteList(listToDelete.id!))
+        .unwrap()
+        .then(() => {
+          setIsDeleteModalOpen(false);
+          setListToDelete(null);
+        })
+        .catch((err) => console.error("Failed to delete list:", err));
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setListToDelete(null);
   };
 
   const toggleMenu = (listId: string) => {
@@ -53,22 +67,24 @@ export const Card = () => {
 
   // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenMenu(null);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
     };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Filter lists for current user
+  const userLists = lists.filter((list:any) => list.userId === currentUserId);
 
   return (
     <>
       {/* Header */}
       <div className="flex mt-10 mb-10 justify-between items-center bg-white rounded-lg shadow-md px-6 py-4 max-w-4xl mx-auto">
         <h1 className="text-xl font-semibold text-gray-800">
-          {lists.length} Shopping List{lists.length !== 1 ? 's' : ''}
+          {userLists.length} Shopping List{userLists.length !== 1 ? 's' : ''}
         </h1>
         <button
           onClick={() => setIsModalOpen(true)}
@@ -86,96 +102,88 @@ export const Card = () => {
         </div>
       )}
 
-      {/* Loading State */}
-      {loading && lists.length === 0 && (
-        <div className="max-w-4xl mx-auto text-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading lists...</p>
-        </div>
-      )}
-
       {/* Cards */}
       <div className="space-y-4 max-w-4xl mx-auto">
-        {lists.length === 0 && !loading ? (
+        {userLists.length === 0 && !loading ? (
           <div className="text-center py-8 text-gray-500">
             No shopping lists found. Create your first list!
           </div>
         ) : (
-          lists.map((list: List) => (
-            <div
-              key={list.id}
-              className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100"
-            >
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold text-gray-800 mb-1">{list.name}</h2>
-                <p className="text-sm text-gray-600">
-                  {list.items} item{list.items !== 1 ? 's' : ''} • Created: {list.date}
-                </p>
-                {list.groceryItems && list.groceryItems.length > 0 && (
-                  <div className="mt-2">
-                    <p className="text-xs text-gray-500 mb-1">Items:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {list.groceryItems.slice(0, 3).map((item) => (
-                        <span 
-                          key={item.id}
-                          className={`text-xs px-2 py-1 rounded-full ${
-                            item.completed 
-                              ? 'bg-green-100 text-green-800 line-through' 
-                              : 'bg-blue-100 text-blue-800'
-                          }`}
-                        >
-                          {item.name} {item.quantity > 1 ? `(${item.quantity})` : ''}
-                        </span>
-                      ))}
-                      {list.groceryItems.length > 3 && (
-                        <span className="text-xs text-gray-500">
-                          +{list.groceryItems.length - 3} more
-                        </span>
-                      )}
+          userLists.map((list: List) => (
+            <Link to={`/lists/${list.id}`} key={list.id} className="block">
+              <div className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100">
+                <div className="flex-1">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-1">{list.name}</h2>
+                  <p className="text-sm text-gray-600">
+                    {list.items} item{list.items !== 1 ? 's' : ''} • Created: {list.date}
+                  </p>
+                  {list.groceryItems?.length > 0 && (
+                    <div className="mt-2">
+                      <p className="text-xs text-gray-500 mb-1">Items:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {list.groceryItems.slice(0, 3).map((item) => (
+                          <span 
+                            key={item.id}
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              item.completed 
+                                ? 'bg-green-100 text-green-800 line-through' 
+                                : 'bg-blue-100 text-blue-800'
+                            }`}
+                          >
+                            {item.name} {item.quantity > 1 ? `(${item.quantity})` : ''}
+                          </span>
+                        ))}
+                        {list.groceryItems.length > 3 && (
+                          <span className="text-xs text-gray-500">
+                            +{list.groceryItems.length - 3} more
+                          </span>
+                        )}
+                      </div>
                     </div>
+                  )}
+                </div>
+
+                {/* Ellipsis Button */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // prevent Link navigation
+                    toggleMenu(list.id!);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
+                  disabled={loading}
+                >
+                  <FaEllipsisVertical className="h-5 w-5" />
+                </button>
+
+                {/* Dropdown Menu */}
+                {openMenu === list.id && (
+                  <div 
+                    ref={menuRef}
+                    className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      View Items
+                    </button>
+                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      Edit List
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(list)}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                      disabled={loading}
+                    >
+                      {loading ? "Deleting..." : "Delete List"}
+                    </button>
                   </div>
                 )}
               </div>
-
-              {/* Ellipsis Button */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleMenu(list.id!);
-                }}
-                className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
-                disabled={loading}
-              >
-                <FaEllipsisVertical className="h-5 w-5" />
-              </button>
-
-              {/* Dropdown Menu */}
-              {openMenu === list.id && (
-                <div 
-                  className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    View Items
-                  </button>
-                  <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Edit List
-                  </button>
-                  <button
-                    onClick={() => list.id && handleDeleteList(list.id)}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                    disabled={loading}
-                  >
-                    {loading ? "Deleting..." : "Delete List"}
-                  </button>
-                </div>
-              )}
-            </div>
+            </Link>
           ))
         )}
       </div>
 
-      {/* Modal */}
+      {/* Create List Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div 
@@ -213,6 +221,46 @@ export const Card = () => {
                 className="flex-1 bg-[#26A91F] text-white px-4 py-2 rounded-md hover:bg-[#1f8c1a] disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200"
               >
                 {loading ? "Saving..." : "Save List"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div 
+            className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={handleCancelDelete}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              disabled={loading}
+            >
+              <IoClose size={24} />
+            </button>
+
+            <h2 className="text-xl font-semibold mb-4 text-red-600">Delete List</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete the list "<span className="font-semibold">{listToDelete?.name}</span>"? This action cannot be undone.
+            </p>
+            
+            <div className="flex gap-2">
+              <button
+                onClick={handleCancelDelete}
+                className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                disabled={loading}
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200"
+              >
+                {loading ? "Deleting..." : "Delete List"}
               </button>
             </div>
           </div>

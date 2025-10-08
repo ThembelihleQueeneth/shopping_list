@@ -10,7 +10,7 @@ const Login: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { loading, error, isAuthenticated, user } = useSelector(
+  const { loading, error, isAuthenticated } = useSelector(
     (state: RootState) => state.login
   );
 
