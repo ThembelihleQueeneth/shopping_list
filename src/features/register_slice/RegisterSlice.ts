@@ -26,8 +26,8 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await axios.post("http://localhost:3000/users", userData);
       return response.data;
-    } catch (err: any) {
-      return rejectWithValue(err.message);
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 );

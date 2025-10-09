@@ -102,7 +102,6 @@ export const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Profile Details */}
         <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
           <h2 className='text-lg font-semibold text-gray-900 mb-6'>Profile Details</h2>
 
@@ -114,6 +113,7 @@ export const ProfilePage = () => {
                   <input
                     type="text"
                     name="name"
+                    placeholder='Edit name'
                     value={formData.name}
                     onChange={handleChange}
                     className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
@@ -128,6 +128,7 @@ export const ProfilePage = () => {
                   <input
                     type="text"
                     name="surname"
+                    placeholder='Edit surname'
                     value={formData.surname}
                     onChange={handleChange}
                     className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
@@ -144,6 +145,7 @@ export const ProfilePage = () => {
                 <input
                   type="email"
                   name="email"
+                  placeholder='Edit email'
                   value={formData.email}
                   onChange={handleChange}
                   className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
@@ -159,6 +161,7 @@ export const ProfilePage = () => {
                 <input
                   type="tel"
                   name="cellphone"
+                  placeholder='Edit cellphone'
                   value={formData.cellphone}
                   onChange={handleChange}
                   className='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500'
