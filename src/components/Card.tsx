@@ -13,7 +13,8 @@ import { Link } from "react-router-dom";
 
 export const Card = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { lists = [], loading = false, error = null } = useSelector((state: RootState) => (state as any).lists ?? { lists: [], loading: false, error: null });
+  const listsState = useSelector((state: RootState) => state.lists);
+  const { lists = [], loading = false, error = null } = listsState ?? { lists: [], loading: false, error: null };
 
   const [currentUserId] = useState("18cc");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,7 +78,7 @@ export const Card = () => {
   }, []);
 
   // Filter lists for current user
-  const userLists = lists.filter((list:any) => list.userId === currentUserId);
+  const userLists = lists.filter((list: List) => list.userId === currentUserId);
 
   return (
     <>
@@ -130,19 +131,20 @@ export const Card = () => {
                   )}
                 </div>
 
-                {/* Ellipsis Button */}
+                
                 <button
                   onClick={(e) => {
-                    e.preventDefault(); // prevent Link navigation
+                    e.preventDefault(); 
                     toggleMenu(list.id!);
+                    
                   }}
                   className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
                   disabled={loading}
                 >
                   <FaEllipsisVertical className="h-5 w-5" />
+                  aria-label="Menu"
                 </button>
 
-                {/* Dropdown Menu */}
                 {openMenu === list.id && (
                   <div 
                     ref={menuRef}
@@ -183,6 +185,7 @@ export const Card = () => {
               disabled={loading}
             >
               <IoClose size={24} />
+              aria-label='Close Modal'
             </button>
 
             <h2 className="text-xl font-semibold mb-4">Create New List</h2>
@@ -227,6 +230,7 @@ export const Card = () => {
               disabled={loading}
             >
               <IoClose size={24} />
+              aria-label='Cancel'
             </button>
 
             <h2 className="text-xl font-semibold mb-4 text-red-600">Delete List</h2>

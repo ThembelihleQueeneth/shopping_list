@@ -10,15 +10,15 @@ import axios from "axios"
 export const HomeNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const menuRef = useRef(null)
+  const menuRef = useRef<HTMLDivElement | null>(null)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate() 
 
   const { user, isAuthenticated } = useSelector((state: RootState) => state.login)
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (menuRef.current && !(menuRef.current as any).contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
     }
@@ -81,6 +81,7 @@ export const HomeNavbar = () => {
             <button 
               onClick={toggleMenu}
               className='flex items-center justify-center w-10 h-10 bg-green-100 rounded-full border-2 border-green-200 hover:bg-green-200 transition duration-200 cursor-pointer'
+              aria-label='User Menu'
             >
               <FaUser className="h-5 w-5 text-green-700" />
             </button>

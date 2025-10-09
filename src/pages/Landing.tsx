@@ -1,7 +1,6 @@
-import { FC } from "react";
+import {type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { LandingNavbar } from "../components/LandingNavbar";
-import { Footer } from "../components/Footer";
 
 const Landing: FC = () => {
   const navigate = useNavigate();
@@ -27,8 +26,8 @@ const Landing: FC = () => {
             Get Started
           </button>
         </div>
-        
-        <div className="bg-[#26A91F] bg-opacity-50 flex flex-col items-center justify-center text-center px-6 py-8">
+
+        <div className="bg-[#26A91F] w-full h-50 bg-opacity-50 flex flex-col items-center justify-center text-center px-6 py-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
             Ready to simplify your shopping?
           </h2>
@@ -43,7 +42,7 @@ const Landing: FC = () => {
           </button>
         </div>
       </div>
-      <Footer/>
+      
     </>
   );
 };

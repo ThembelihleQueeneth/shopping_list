@@ -26,7 +26,6 @@ const initialState: LoginState = {
   user: storedUser ? JSON.parse(storedUser) : null,
 };
 
-// Login user from db.json
 export const loginUser = createAsyncThunk(
   "login/loginUser",
   async (
@@ -50,27 +49,24 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue("Invalid password");
       }
 
-      // Save user to localStorage for persistence
       localStorage.setItem("user", JSON.stringify(user));
 
       return user;
-    } catch (err: any) {
-      return rejectWithValue(err.message);
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 );
 
-// Update user in db.json and Redux
 export const updateUserInDB = createAsyncThunk(
   "login/updateUserInDB",
   async ({ id, data }: { id: number; data: Partial<User> }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(`http://localhost:3000/users/${id}`, data);
-      // Update localStorage
       localStorage.setItem("user", JSON.stringify(response.data));
       return response.data;
-    } catch (err: any) {
-      return rejectWithValue(err.message);
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 );
@@ -87,7 +83,6 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -101,7 +96,6 @@ const loginSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Update user
       .addCase(updateUserInDB.pending, (state) => {
         state.loading = true;
         state.error = null;

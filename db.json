@@ -168,9 +168,18 @@
       "id": "533d",
       "name": "testing",
       "userId": "18cc",
-      "items": 0,
+      "items": 1,
       "date": "10/9/2025",
-      "groceryItems": []
+      "groceryItems": [
+        {
+          "name": "Test 1",
+          "quantity": 1,
+          "category": "Fruits & Vegetables",
+          "completed": false,
+          "listId": "533d",
+          "id": "1759993070400"
+        }
+      ]
     },
     {
       "id": "6518",
