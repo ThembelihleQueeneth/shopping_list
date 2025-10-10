@@ -2,7 +2,6 @@ import { type FC, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store/store";
 import { loginUser } from "../features/login_slice/LoginSlice";
-import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
@@ -80,10 +79,13 @@ const Login: FC = () => {
             />
           </div>
 
-          <Button
-            text={loading ? "Signing In..." : "Sign In"}
+          <button
             type="submit"
-          />
+            disabled={loading}
+            className="w-full bg-[#26A91F] text-white py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {loading ? "Creating Account..." : "Sign In"}
+          </button>
         </form>
 
         <p className="mt-6 text-sm text-center text-gray-600">

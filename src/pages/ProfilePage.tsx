@@ -58,7 +58,6 @@ export const ProfilePage = () => {
   return (
     <div className='min-h-screen py-8'>
       <div className='max-w-2xl mx-auto px-4 sm:px-6 lg:px-8'>
-        {/* Header */}
         <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center space-x-4'>
@@ -76,7 +75,7 @@ export const ProfilePage = () => {
             {!isEditing ? (
               <button
                 onClick={handleEdit}
-                className='flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200'
+                className='flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 cursor-pointer'
               >
                 <FaEdit className="h-4 w-4" />
                 <span>Edit Profile</span>
@@ -85,14 +84,14 @@ export const ProfilePage = () => {
               <div className='flex space-x-2'>
                 <button
                   onClick={handleSave}
-                  className='flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200'
+                  className='flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 cursor-pointer'
                 >
                   <FaSave className="h-4 w-4" />
                   <span>{loading ? 'Saving...' : 'Save'}</span>
                 </button>
                 <button
                   onClick={handleCancel}
-                  className='flex items-center space-x-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition duration-200'
+                  className='flex items-center space-x-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition duration-200 cursor-pointer'
                 >
                   <FaTimes className="h-4 w-4" />
                   <span>Cancel</span>

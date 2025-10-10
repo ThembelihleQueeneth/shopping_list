@@ -3,7 +3,7 @@
     {
       "id": "18cc",
       "name": "Thembelihle",
-      "surname": "Maluka",
+      "surname": "Mabuza",
       "email": "malukathembelihle95@gmail.com",
       "cellphone": "0793316193",
       "password": "12345"
@@ -11,36 +11,52 @@
     {
       "id": "1570",
       "name": "Josh",
-      "surname": "Green",
+      "surname": "Brown",
       "email": "josh@gmail.com",
       "cellphone": "10111",
       "password": "123"
+    },
+    {
+      "id": "81c3",
+      "name": "Th",
+      "surname": "Maluka",
+      "email": "malukathembelihle95@gmail.com",
+      "cellphone": "0793316193",
+      "password": "123456"
+    },
+    {
+      "id": "feb8",
+      "name": "Th",
+      "surname": "Maluka",
+      "email": "malukathembelihle95@gmail.com",
+      "cellphone": "0793316193",
+      "password": "123456"
     }
   ],
   "lists": [
     {
-      "id": "8c1a",
+      "productId": "8c1a",
       "name": "Fruits",
       "items": 3,
       "date": "10/8/2025",
       "userId": "1570",
       "groceryItems": [
         {
-          "id": "1",
+          "itemId": "1",
           "name": "Apples",
           "quantity": 6,
           "category": "Fruit",
           "completed": false
         },
         {
-          "id": "2",
+          "itemId": "2",
           "name": "Bananas",
           "quantity": 4,
           "category": "Fruit",
           "completed": true
         },
         {
-          "id": "3",
+          "itemId": "3",
           "name": "Oranges",
           "quantity": 8,
           "category": "Fruit",
@@ -49,90 +65,35 @@
       ]
     },
     {
-      "id": "8d7f",
-      "name": "Baking Muffins",
-      "items": 6,
-      "date": "10/8/2025",
-      "userId": "18cc",
-      "groceryItems": [
-        {
-          "id": "4",
-          "name": "Flour",
-          "quantity": 1,
-          "category": "Baking",
-          "completed": false
-        },
-        {
-          "id": "5",
-          "name": "Chocolate Chips",
-          "quantity": 1,
-          "category": "Baking",
-          "completed": false
-        },
-        {
-          "name": "Eggs",
-          "quantity": 1,
-          "category": "Uncategorized",
-          "completed": false,
-          "listId": "8d7f",
-          "id": "1759963817851"
-        },
-        {
-          "name": "dd",
-          "quantity": 1,
-          "category": "Uncategorized",
-          "completed": false,
-          "listId": "8d7f",
-          "id": "1759963847843"
-        },
-        {
-          "name": "Pink",
-          "quantity": 1,
-          "category": "Pantry",
-          "completed": false,
-          "listId": "8d7f",
-          "id": "1759964341013"
-        },
-        {
-          "name": "test2",
-          "quantity": 1,
-          "category": "Snacks",
-          "completed": false,
-          "listId": "8d7f",
-          "id": "1759964405785"
-        }
-      ]
-    },
-    {
-      "id": "9e7b",
+      "productId": "9e7b",
       "name": "Pasta Dinner",
       "items": 4,
       "date": "10/8/2025",
       "userId": "1570",
       "groceryItems": [
         {
-          "id": "6",
+          "itemId": "6",
           "name": "Pasta",
           "quantity": 1,
           "category": "Pantry",
           "completed": true
         },
         {
-          "id": "7",
+          "itemId": "7",
           "name": "Tomato Sauce",
           "quantity": 1,
           "category": "Condiments",
           "completed": false
         },
         {
-          "id": "8",
+          "itemId": "8",
           "name": "Parmesan Cheese",
           "quantity": 1,
           "category": "Dairy",
           "completed": false
         },
         {
-          "id": "9",
+          "itemId": "9",
           "name": "Ground Beef",
           "quantity": 1,
           "category": "Meat",
@@ -141,60 +102,59 @@
       ]
     },
     {
-      "id": "9de0",
+      "productId": "9de0",
       "name": "Alcohol for the party",
       "items": 0,
       "date": "10/8/2025",
+      "userId": "",
       "groceryItems": []
     },
     {
-      "id": "1acd",
+      "productId": "1acd",
       "name": "Gogo's Party",
       "userId": "18cc",
       "items": 1,
       "date": "10/9/2025",
       "groceryItems": [
         {
+          "itemId": "1759964558516",
           "name": "Meat",
           "quantity": 1,
           "category": "Meat & Seafood",
-          "completed": false,
-          "listId": "1acd",
-          "id": "1759964558516"
+          "completed": false
         }
       ]
     },
     {
-      "id": "533d",
+      "productId": "533d",
       "name": "testing",
       "userId": "18cc",
       "items": 1,
       "date": "10/9/2025",
       "groceryItems": [
         {
+          "itemId": "1759993070400",
           "name": "Test 1",
           "quantity": 1,
           "category": "Fruits & Vegetables",
-          "completed": false,
-          "listId": "533d",
-          "id": "1759993070400"
+          "completed": false
         }
       ]
     },
     {
-      "id": "6518",
-      "name": "Testing",
+      "productId": "fb6f",
+      "name": "testing 2",
       "userId": "18cc",
       "items": 0,
       "date": "10/9/2025",
       "groceryItems": []
     },
     {
-      "id": "fb6f",
-      "name": "testing 2",
+      "productId": "8a66",
+      "name": "baking for gogo",
       "userId": "18cc",
       "items": 0,
-      "date": "10/9/2025",
+      "date": "10/10/2025",
       "groceryItems": []
     }
   ]

@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState, type AppDispatch } from "../store/store";
-import { 
-  fetchUserLists, 
-  addList, 
-  deleteList, 
-  type List 
+import {
+  fetchUserLists,
+  addList,
+  deleteList,
+  type List,
 } from "../features/list_slice/listSlice";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -14,7 +14,11 @@ import { Link } from "react-router-dom";
 export const Card = () => {
   const dispatch = useDispatch<AppDispatch>();
   const listsState = useSelector((state: RootState) => state.lists);
-  const { lists = [], loading = false, error = null } = listsState ?? { lists: [], loading: false, error: null };
+  const {
+    lists = [],
+    loading = false,
+    error = null,
+  } = listsState ?? { lists: [], loading: false, error: null };
 
   const [currentUserId] = useState("18cc");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +34,16 @@ export const Card = () => {
 
   const handleAddList = () => {
     if (!listName.trim()) return;
-    dispatch(addList({ name: listName, userId: currentUserId }))
+    dispatch(
+      addList({
+        productId: crypto.randomUUID().slice(0, 4), 
+        name: listName,
+        userId: currentUserId,
+        items: 0,
+        date: new Date().toLocaleDateString(),
+        groceryItems: [],
+      })
+    )
       .unwrap()
       .then(() => {
         setListName("");
@@ -47,7 +60,7 @@ export const Card = () => {
 
   const handleConfirmDelete = () => {
     if (listToDelete) {
-      dispatch(deleteList(listToDelete.id!))
+      dispatch(deleteList(listToDelete.productId!))
         .unwrap()
         .then(() => {
           setIsDeleteModalOpen(false);
@@ -66,7 +79,6 @@ export const Card = () => {
     setOpenMenu(openMenu === listId ? null : listId);
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -77,33 +89,32 @@ export const Card = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter lists for current user
-  const userLists = lists.filter((list: List) => list.userId === currentUserId);
+  const userLists = lists.filter(
+    (list: List) => list.userId === currentUserId
+  );
 
   return (
     <>
-      {/* Header */}
       <div className="flex mt-10 mb-10 justify-between items-center bg-white rounded-lg shadow-md px-6 py-4 max-w-4xl mx-auto">
         <h1 className="text-xl font-semibold text-gray-800">
-          {userLists.length} Shopping List{userLists.length !== 1 ? 's' : ''}
+          {userLists.length} Shopping List{userLists.length !== 1 ? "s" : ""}
         </h1>
+        
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-[#26A91F] text-white px-4 py-2 rounded-lg hover:bg-[#1f8c1a] transition duration-200 font-medium"
+          className="bg-[#26A91F] text-white px-4 py-2 rounded-lg hover:bg-[#1f8c1a] transition duration-200 font-medium cursor-pointer"
           disabled={loading}
         >
           {loading ? "Loading..." : "Add New List +"}
         </button>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="max-w-4xl mx-auto mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
           Error: {error}
         </div>
       )}
 
-      {/* Cards */}
       <div className="space-y-4 max-w-4xl mx-auto">
         {userLists.length === 0 && !loading ? (
           <div className="text-center py-8 text-gray-500">
@@ -111,42 +122,41 @@ export const Card = () => {
           </div>
         ) : (
           userLists.map((list: List) => (
-            <Link to={`/lists/${list.id}`} key={list.id} className="block">
+            <Link to={`/lists/${list.productId}`} key={list.productId} className="block">
               <div className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100">
                 <div className="flex-1">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-1">{list.name}</h2>
+                  <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                    {list.name}
+                  </h2>
                   <p className="text-sm text-gray-600">
-                    {list.items} item{list.items !== 1 ? 's' : ''} • Created: {list.date}
+                    {list.items} item{list.items !== 1 ? "s" : ""} • Created:{" "}
+                    {list.date}
                   </p>
                   {list.groceryItems?.length > 0 && (
                     <div className="mt-2">
-                      
-                        {list.groceryItems.length > 3 && (
-                          <span className="text-xs text-gray-500">
-                            +{list.groceryItems.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                   
+                      {list.groceryItems.length > 3 && (
+                        <span className="text-xs text-gray-500">
+                          +{list.groceryItems.length - 3} more
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
 
-                
                 <button
                   onClick={(e) => {
-                    e.preventDefault(); 
-                    toggleMenu(list.id!);
-                    
+                    e.preventDefault();
+                    toggleMenu(list.productId!);
                   }}
-                  className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200"
-                  disabled={loading}
+                  className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200 cursor-pointer"
+                  disabled={loading} aria-label="Menu"
                 >
                   <FaEllipsisVertical className="h-5 w-5" />
-                  aria-label="Menu"
+                  
                 </button>
 
-                {openMenu === list.id && (
-                  <div 
+                {openMenu === list.productId && (
+                  <div
                     ref={menuRef}
                     className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10"
                     onClick={(e) => e.stopPropagation()}
@@ -172,10 +182,9 @@ export const Card = () => {
         )}
       </div>
 
-      {/* Create List Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div 
+          <div
             className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
@@ -185,7 +194,7 @@ export const Card = () => {
               disabled={loading}
             >
               <IoClose size={24} />
-              aria-label='Close Modal'
+              aria-label="Close Modal"
             </button>
 
             <h2 className="text-xl font-semibold mb-4">Create New List</h2>
@@ -195,7 +204,7 @@ export const Card = () => {
               onChange={(e) => setListName(e.target.value)}
               placeholder="Enter list name..."
               className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-              onKeyPress={(e) => e.key === 'Enter' && handleAddList()}
+              onKeyPress={(e) => e.key === "Enter" && handleAddList()}
             />
             <div className="flex gap-2">
               <button
@@ -217,10 +226,9 @@ export const Card = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div 
+          <div
             className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
@@ -230,14 +238,18 @@ export const Card = () => {
               disabled={loading}
             >
               <IoClose size={24} />
-              aria-label='Cancel'
+              aria-label="Cancel"
             </button>
 
-            <h2 className="text-xl font-semibold mb-4 text-red-600">Delete List</h2>
+            <h2 className="text-xl font-semibold mb-4 text-red-600">
+              Delete List
+            </h2>
             <p className="text-gray-700 mb-6">
-              Are you sure you want to delete the list "<span className="font-semibold">{listToDelete?.name}</span>"? This action cannot be undone.
+              Are you sure you want to delete the list "
+              <span className="font-semibold">{listToDelete?.name}</span>"? This
+              action cannot be undone.
             </p>
-            
+
             <div className="flex gap-2">
               <button
                 onClick={handleCancelDelete}
