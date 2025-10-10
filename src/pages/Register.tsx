@@ -75,7 +75,6 @@ const Register: FC = () => {
       [name]: value,
     }));
 
-    // Validate field in real-time if it's been touched
     if (touched[name]) {
       const error = validateField(name, value);
       setErrors((prev) => ({
@@ -88,13 +87,11 @@ const Register: FC = () => {
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
-    // Mark field as touched
     setTouched((prev) => ({
       ...prev,
       [name]: true,
     }));
 
-    // Validate field
     const error = validateField(name, value);
     setErrors((prev) => ({
       ...prev,
@@ -106,7 +103,6 @@ const Register: FC = () => {
     const newErrors: FormErrors = {};
     const newTouched: Record<string, boolean> = {};
 
-    // Validate all fields and mark them as touched
     Object.keys(formData).forEach((key) => {
       newTouched[key] = true;
       newErrors[key] = validateField(key, formData[key as keyof typeof formData]);
@@ -115,7 +111,6 @@ const Register: FC = () => {
     setTouched(newTouched);
     setErrors(newErrors);
 
-    // Check if form is valid
     return Object.values(newErrors).every(error => !error);
   };
 
@@ -178,7 +173,7 @@ const Register: FC = () => {
         <form onSubmit={handleRegister}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm mr-60 font-medium text-gray-700 mb-2">
                 Name:
               </label>
               <input 
@@ -195,7 +190,7 @@ const Register: FC = () => {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Surname:
               </label>
               <input 
@@ -215,7 +210,7 @@ const Register: FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Email:
               </label>
               <input 
@@ -233,7 +228,7 @@ const Register: FC = () => {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Cellphone:
               </label>
               <input 
@@ -254,7 +249,7 @@ const Register: FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Password:
               </label>
               <input 
@@ -272,7 +267,7 @@ const Register: FC = () => {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 ">
                 Confirm Password:
               </label>
               <input 
