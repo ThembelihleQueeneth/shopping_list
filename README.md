@@ -15,7 +15,7 @@ The app allows users to add, check, and remove shopping items while managing the
 
 🧠 TypeScript Support — Ensures type safety and improved developer experience.
 
-💅 Clean UI — Styled with Tailwind CSS (or your preferred styling method).
+💅 Clean UI — Styled with Tailwind CSS.
 
 🧱 Project Structure
 shopping-list/
