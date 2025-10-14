@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+🛒 Shopping List Web App (React + TypeScript + Redux)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive Shopping List App built with React, TypeScript, and Redux Toolkit.
+The app allows users to add, check, and remove shopping items while managing the list state efficiently using Redux.
 
-Currently, two official plugins are available:
+🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ Add Items — Add new items to your shopping list.
 
-## React Compiler
+✔️ Mark as Bought — Toggle checkboxes to mark items as purchased.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🗑️ Delete Items — Remove items from your list.
 
-## Expanding the ESLint configuration
+💾 State Management — Powered by Redux Toolkit for predictable and scalable state control.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🧠 TypeScript Support — Ensures type safety and improved developer experience.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+💅 Clean UI — Styled with Tailwind CSS (or your preferred styling method).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🧱 Project Structure
+shopping-list/
+│
+├── src/
+│   ├── components/        # Reusable UI components
+│   ├── pages/             # Page views (e.g., Home)
+│   ├── redux/
+│   │   ├── store.ts       # Redux store setup
+│   │   └── slices/        # Redux slices for app state
+│   ├── types/             # TypeScript interfaces/types
+│   ├── App.tsx            # Root component
+│   ├── main.tsx           # Entry point
+│   └── index.css          # Global styles
+│
+├── public/                # Static assets
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+⚙️ Technologies Used
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+React 18+ — Component-based UI library
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+TypeScript — Type-safe JavaScript
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Redux Toolkit — Simplified global state management
+
+React-Redux — Integration between React and Redux
+
+Vite — Fast development environment
+
+Tailwind CSS  — For styling and layout
