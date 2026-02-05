@@ -1,8 +1,11 @@
 # ShopMate - Smart Shopping List App 🛒
 
+
+![landingPage](https://github.com/user-attachments/assets/f54e67d5-1899-404f-90ea-8b25238f6da9)
+
 ShopMate is a modern, feature-rich shopping list application designed to help users organize their grocery trips efficiently. It allows users to create multiple lists, add items with categories and quantities, and track what they've bought.
 
-## ✨ Features
+##  Features
 
 -   **User Authentication**: Secure Login and Registration system.
 -   **Multiple Lists**: Create, rename, and delete shopping lists.
@@ -14,7 +17,7 @@ ShopMate is a modern, feature-rich shopping list application designed to help us
 -   **Smart Search**: Filter your lists instantly from the home page.
 -   **Responsive Design**: A premium, mobile-friendly UI built with Tailwind CSS.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 This project is built using the latest web technologies:
 
@@ -27,7 +30,7 @@ This project is built using the latest web technologies:
 -   **HTTP Client**: [Axios](https://axios-http.com/)
 -   **Build Tool**: [Vite](https://vitejs.dev/)
 
-## 🚀 How to Run the App
+## How to Run the App
 
 To run this application locally, you will need **Node.js** installed on your machine.
 
@@ -62,7 +65,7 @@ npm run dev
 
 Open your browser and navigate to the URL shown in Terminal 2 (usually `http://localhost:5173`).
 
-## 🔑 Demo Credentials
+##  Demo Credentials
 
 To test the app quickly without registering, you can use the following test account:
 
@@ -71,7 +74,7 @@ To test the app quickly without registering, you can use the following test acco
 
 *Alternatively, feel free to click "Register" on the login page to create your own account!*
 
-## 📁 Project Structure
+##  Project Structure
 
 -   `src/components`: Reusable UI components (Card, Navbar, ViewItems).
 -   `src/features`: Redux slices for state management (Login, Lists).
@@ -79,3 +82,10 @@ To test the app quickly without registering, you can use the following test acco
 -   `src/routes`: App routing configuration.
 -   `src/store`: Redux store configuration.
 -   `db.json`: The database file for JSON Server.
+
+## ScreanShots
+![loginPage](https://github.com/user-attachments/assets/c6fa1024-577f-4b7a-845a-01063839c0d2)
+![MenuBar](https://github.com/user-attachments/assets/54aa09ee-a36f-4b0e-9ac0-089a0055b809)
+![registerPage](https://github.com/user-attachments/assets/1c07206f-ace5-431d-bcc2-45c83a41f390)
+![ViewItemsPage](https://github.com/user-attachments/assets/2ece1617-dd98-4120-99e3-f9510328d2fd)
+
