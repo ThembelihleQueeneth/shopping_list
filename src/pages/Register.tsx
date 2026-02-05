@@ -1,7 +1,7 @@
 import { type FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store/store";
-import { registerUser } from "../features/register_slice/RegisterSlice"; 
+import { registerUser } from "../features/register_slice/RegisterSlice";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
@@ -36,32 +36,32 @@ const Register: FC = () => {
         if (!value.trim()) return "Name is required";
         if (value.length < 2) return "Name must be at least 2 characters";
         return "";
-      
+
       case "surname":
         if (!value.trim()) return "Surname is required";
         if (value.length < 2) return "Surname must be at least 2 characters";
         return "";
-      
+
       case "email":
         if (!value.trim()) return "Email is required";
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Please enter a valid email address";
         return "";
-      
+
       case "cellphone":
         if (!value.trim()) return "Cellphone is required";
         if (!/^\+?[\d\s-()]{10,}$/.test(value)) return "Please enter a valid phone number";
         return "";
-      
+
       case "password":
         if (!value) return "Password is required";
         if (value.length < 6) return "Password must be at least 6 characters";
         return "";
-      
+
       case "confirmPassword":
         if (!value) return "Please confirm your password";
         if (value !== formData.password) return "Passwords do not match";
         return "";
-      
+
       default:
         return "";
     }
@@ -69,7 +69,7 @@ const Register: FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -86,7 +86,7 @@ const Register: FC = () => {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     setTouched((prev) => ({
       ...prev,
       [name]: true,
@@ -105,7 +105,7 @@ const Register: FC = () => {
 
     Object.keys(formData).forEach((key) => {
       newTouched[key] = true;
-      newErrors[key] = validateField(key, formData[key as keyof typeof formData]);
+      newErrors[key as keyof FormErrors] = validateField(key, formData[key as keyof typeof formData]);
     });
 
     setTouched(newTouched);
@@ -176,7 +176,7 @@ const Register: FC = () => {
               <label className="block text-sm mr-60 font-medium text-gray-700 mb-2">
                 Name:
               </label>
-              <input 
+              <input
                 name="name"
                 placeholder="Enter Name"
                 value={formData.name}
@@ -193,7 +193,7 @@ const Register: FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Surname:
               </label>
-              <input 
+              <input
                 name="surname"
                 placeholder="Enter Surname"
                 value={formData.surname}
@@ -213,7 +213,7 @@ const Register: FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Email:
               </label>
-              <input 
+              <input
                 type="email"
                 name="email"
                 placeholder="Enter Email"
@@ -231,7 +231,7 @@ const Register: FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Cellphone:
               </label>
-              <input 
+              <input
                 type="tel"
                 name="cellphone"
                 placeholder="Enter Cellphone"
@@ -252,7 +252,7 @@ const Register: FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2 mr-60">
                 Password:
               </label>
-              <input 
+              <input
                 type="password"
                 name="password"
                 placeholder="Enter Password"
@@ -260,7 +260,7 @@ const Register: FC = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={getInputClassName("password")}
-                required 
+                required
               />
               {errors.password && touched.password && (
                 <p className="mt-1 text-sm text-red-600">{errors.password}</p>
@@ -270,7 +270,7 @@ const Register: FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2 ">
                 Confirm Password:
               </label>
-              <input 
+              <input
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
@@ -278,7 +278,7 @@ const Register: FC = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={getInputClassName("confirmPassword")}
-                required 
+                required
               />
               {errors.confirmPassword && touched.confirmPassword && (
                 <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>

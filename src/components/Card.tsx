@@ -20,7 +20,8 @@ export const Card = () => {
     error = null,
   } = listsState ?? { lists: [], loading: false, error: null };
 
-  const [currentUserId] = useState("18cc");
+  const loginState = useSelector((state: RootState) => state.login);
+  const currentUserId = loginState.user?.id ? String(loginState.user.id) : "";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [listName, setListName] = useState("");
@@ -36,12 +37,8 @@ export const Card = () => {
     if (!listName.trim()) return;
     dispatch(
       addList({
-        productId: crypto.randomUUID().slice(0, 4), 
         name: listName,
         userId: currentUserId,
-        items: 0,
-        date: new Date().toLocaleDateString(),
-        groceryItems: [],
       })
     )
       .unwrap()
@@ -60,7 +57,7 @@ export const Card = () => {
 
   const handleConfirmDelete = () => {
     if (listToDelete) {
-      dispatch(deleteList(listToDelete.productId!))
+      dispatch(deleteList(listToDelete.id!))
         .unwrap()
         .then(() => {
           setIsDeleteModalOpen(false);
@@ -99,7 +96,7 @@ export const Card = () => {
         <h1 className="text-xl font-semibold text-gray-800">
           {userLists.length} Shopping List{userLists.length !== 1 ? "s" : ""}
         </h1>
-        
+
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-[#26A91F] text-white px-4 py-2 rounded-lg hover:bg-[#1f8c1a] transition duration-200 font-medium cursor-pointer"
@@ -122,7 +119,7 @@ export const Card = () => {
           </div>
         ) : (
           userLists.map((list: List) => (
-            <Link to={`/lists/${list.productId}`} key={list.productId} className="block">
+            <Link to={`/lists/${list.id}`} key={list.id} className="block">
               <div className="relative flex justify-between items-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-100">
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold text-gray-800 mb-1">
@@ -146,16 +143,16 @@ export const Card = () => {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    toggleMenu(list.productId!);
+                    toggleMenu(list.id!);
                   }}
                   className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition duration-200 cursor-pointer"
                   disabled={loading} aria-label="Menu"
                 >
                   <FaEllipsisVertical className="h-5 w-5" />
-                  
+
                 </button>
 
-                {openMenu === list.productId && (
+                {openMenu === list.id && (
                   <div
                     ref={menuRef}
                     className="absolute right-4 top-14 bg-white border border-gray-200 rounded-lg shadow-md w-40 z-10"
@@ -183,7 +180,7 @@ export const Card = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div
             className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
@@ -227,7 +224,7 @@ export const Card = () => {
       )}
 
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div
             className="bg-white rounded-lg p-6 w-96 shadow-lg relative"
             onClick={(e) => e.stopPropagation()}

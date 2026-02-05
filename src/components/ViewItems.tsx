@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import { type RootState } from "../store/store";
 
 export const ViewItems = () => {
-  const { productId } = useParams<{ productId: string }>();
+  const { listId } = useParams<{ listId: string }>();
   const lists = useSelector((state: RootState) => state.lists.lists);
 
-  const list = lists.find((l) => l.productId === productId);
+  const list = lists.find((l) => l.id === listId);
 
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -61,7 +61,7 @@ export const ViewItems = () => {
         {filteredItems.length > 0 ? (
           filteredItems.map((item) => (
             <li
-              key={item.itemId}
+              key={item.id}
               className="p-3 border rounded-md bg-gray-50 flex justify-between"
             >
               <span>{item.name}</span>

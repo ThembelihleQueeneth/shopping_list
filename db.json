@@ -31,32 +31,64 @@
       "email": "malukathembelihle95@gmail.com",
       "cellphone": "0793316193",
       "password": "123456"
+    },
+    {
+      "id": "ba74",
+      "name": "Phetheni",
+      "surname": "Mhale",
+      "email": "mhale@gmail.com",
+      "cellphone": "0898897373",
+      "password": "123456"
+    },
+    {
+      "id": "55f0",
+      "name": "Phetheni",
+      "surname": "Mhale",
+      "email": "mhale@gmail.com",
+      "cellphone": "0898897373",
+      "password": "123456"
+    },
+    {
+      "id": "f44a",
+      "name": "Phetheni",
+      "surname": "Mhale",
+      "email": "mhale@gmail.com",
+      "cellphone": "0898897373",
+      "password": "123456"
+    },
+    {
+      "id": "c80a",
+      "name": "Anele",
+      "surname": "Masango",
+      "email": "anele@gmail.com",
+      "cellphone": "0893383838",
+      "password": "123456"
     }
   ],
   "lists": [
     {
-      "productId": "8c1a",
+      "id": "8c1a",
       "name": "Fruits",
       "items": 3,
       "date": "10/8/2025",
       "userId": "1570",
       "groceryItems": [
         {
-          "itemId": "1",
+          "id": "1",
           "name": "Apples",
           "quantity": 6,
           "category": "Fruit",
           "completed": false
         },
         {
-          "itemId": "2",
+          "id": "2",
           "name": "Bananas",
           "quantity": 4,
           "category": "Fruit",
           "completed": true
         },
         {
-          "itemId": "3",
+          "id": "3",
           "name": "Oranges",
           "quantity": 8,
           "category": "Fruit",
@@ -65,35 +97,35 @@
       ]
     },
     {
-      "productId": "9e7b",
+      "id": "9e7b",
       "name": "Pasta Dinner",
       "items": 4,
       "date": "10/8/2025",
       "userId": "1570",
       "groceryItems": [
         {
-          "itemId": "6",
+          "id": "6",
           "name": "Pasta",
           "quantity": 1,
           "category": "Pantry",
           "completed": true
         },
         {
-          "itemId": "7",
+          "id": "7",
           "name": "Tomato Sauce",
           "quantity": 1,
           "category": "Condiments",
           "completed": false
         },
         {
-          "itemId": "8",
+          "id": "8",
           "name": "Parmesan Cheese",
           "quantity": 1,
           "category": "Dairy",
           "completed": false
         },
         {
-          "itemId": "9",
+          "id": "9",
           "name": "Ground Beef",
           "quantity": 1,
           "category": "Meat",
@@ -102,7 +134,7 @@
       ]
     },
     {
-      "productId": "9de0",
+      "id": "9de0",
       "name": "Alcohol for the party",
       "items": 0,
       "date": "10/8/2025",
@@ -110,14 +142,14 @@
       "groceryItems": []
     },
     {
-      "productId": "1acd",
+      "id": "1acd",
       "name": "Gogo's Party",
       "userId": "18cc",
       "items": 1,
       "date": "10/9/2025",
       "groceryItems": [
         {
-          "itemId": "1759964558516",
+          "id": "1759964558516",
           "name": "Meat",
           "quantity": 1,
           "category": "Meat & Seafood",
@@ -126,14 +158,14 @@
       ]
     },
     {
-      "productId": "533d",
+      "id": "533d",
       "name": "testing",
       "userId": "18cc",
       "items": 1,
       "date": "10/9/2025",
       "groceryItems": [
         {
-          "itemId": "1759993070400",
+          "id": "1759993070400",
           "name": "Test 1",
           "quantity": 1,
           "category": "Fruits & Vegetables",
@@ -142,7 +174,7 @@
       ]
     },
     {
-      "productId": "fb6f",
+      "id": "fb6f",
       "name": "testing 2",
       "userId": "18cc",
       "items": 0,
@@ -150,11 +182,27 @@
       "groceryItems": []
     },
     {
-      "productId": "8a66",
+      "id": "8a66",
       "name": "baking for gogo",
       "userId": "18cc",
       "items": 0,
       "date": "10/10/2025",
+      "groceryItems": []
+    },
+    {
+      "id": "ae46",
+      "name": "Stationary",
+      "userId": "18cc",
+      "items": 0,
+      "date": "2/5/2026",
+      "groceryItems": []
+    },
+    {
+      "id": "6d25",
+      "name": "Gogo's Party",
+      "userId": "c80a",
+      "items": 0,
+      "date": "2/5/2026",
       "groceryItems": []
     }
   ]
