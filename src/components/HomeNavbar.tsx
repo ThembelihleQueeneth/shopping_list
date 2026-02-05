@@ -7,12 +7,16 @@ import { type RootState, type AppDispatch } from "../store/store"
 import { logout } from "../features/login_slice/LoginSlice"
 import axios from "axios"
 
-export const HomeNavbar = () => {
+interface HomeNavbarProps {
+  onSearchChange: (value: string) => void;
+}
+
+export const HomeNavbar = ({ onSearchChange }: HomeNavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
   const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const { user, isAuthenticated } = useSelector((state: RootState) => state.login)
 
@@ -31,7 +35,7 @@ export const HomeNavbar = () => {
   const handleLogout = () => {
     dispatch(logout())
     setIsMenuOpen(false)
-    navigate("/") 
+    navigate("/")
   }
 
   const handleDelete = () => setIsDeleteModalOpen(true)
@@ -44,7 +48,7 @@ export const HomeNavbar = () => {
       setIsDeleteModalOpen(false)
       setIsMenuOpen(false)
       alert("Account deleted successfully!")
-      navigate("/") 
+      navigate("/")
     } catch (err) {
       console.error("Failed to delete account:", err)
       alert("Failed to delete account. Try again.")
@@ -57,15 +61,16 @@ export const HomeNavbar = () => {
     <>
       <nav className='flex justify-between items-center bg-gray-50 px-6 py-4 shadow-sm'>
         <div className='flex items-center space-x-3'>
-          <img src={logo} alt="ShopMate Logo" className='w-10 h-10 object-cover rounded-lg'/>
+          <img src={logo} alt="ShopMate Logo" className='w-10 h-10 object-cover rounded-lg' />
           <h5 className='text-xl font-bold text-green-700'>ShopMate App</h5>
         </div>
 
         <div className='flex-1 max-w-lg mx-8'>
           <div className='relative'>
-            <input 
-              type="text" 
-              placeholder='Search products...' 
+            <input
+              type="text"
+              placeholder='Search products...'
+              onChange={(e) => onSearchChange(e.target.value)}
               className='w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white'
             />
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -76,9 +81,9 @@ export const HomeNavbar = () => {
           <h3 className='text-gray-700 font-medium'>
             {isAuthenticated && user ? `Welcome back, ${user.name}!` : "Welcome!"}
           </h3>
-          
+
           <div className='relative'>
-            <button 
+            <button
               onClick={toggleMenu}
               className='flex items-center justify-center w-10 h-10 bg-green-100 rounded-full border-2 border-green-200 hover:bg-green-200 transition duration-200 cursor-pointer'
               aria-label='User Menu'
@@ -99,7 +104,7 @@ export const HomeNavbar = () => {
 
                 <div className='py-1'>
                   <Link to="/profile">
-                    <button 
+                    <button
                       onClick={() => setIsMenuOpen(false)}
                       className='flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-150'
                     >
@@ -109,8 +114,8 @@ export const HomeNavbar = () => {
                   </Link>
 
                   <div className='border-t border-gray-100 my-1'></div>
-                  
-                  <button 
+
+                  <button
                     onClick={handleLogout}
                     className='flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition duration-150'
                   >
@@ -118,7 +123,7 @@ export const HomeNavbar = () => {
                     Logout
                   </button>
 
-                  <button 
+                  <button
                     onClick={handleDelete}
                     className='flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition duration-150'
                   >

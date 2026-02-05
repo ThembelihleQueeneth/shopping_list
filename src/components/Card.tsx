@@ -11,7 +11,11 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-export const Card = () => {
+interface CardProps {
+  searchTerm: string;
+}
+
+export const Card = ({ searchTerm }: CardProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const listsState = useSelector((state: RootState) => state.lists);
   const {
@@ -87,7 +91,9 @@ export const Card = () => {
   }, []);
 
   const userLists = lists.filter(
-    (list: List) => list.userId === currentUserId
+    (list: List) =>
+      list.userId === currentUserId &&
+      list.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
