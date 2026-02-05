@@ -9,7 +9,7 @@ export interface GroceryItem {
   completed: boolean;
   listId: string;
   notes?: string;
-  image?: string; 
+  image?: string;
 }
 
 export interface List {
@@ -21,7 +21,7 @@ export interface List {
   groceryItems: GroceryItem[];
 }
 
-const API_URL = "http://localhost:3000"; 
+const API_URL = "http://localhost:3000";
 interface ListsState {
   lists: List[];
   loading: boolean;
@@ -65,6 +65,20 @@ export const addList = createAsyncThunk(
   }
 );
 
+export const updateList = createAsyncThunk(
+  "lists/updateList",
+  async (payload: { listId: string; name: string }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch<List>(`${API_URL}/lists/${payload.listId}`, {
+        name: payload.name
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error || "Failed to update list");
+    }
+  }
+);
+
 export const deleteList = createAsyncThunk(
   "lists/deleteList",
   async (listId: string, { rejectWithValue }) => {
@@ -91,9 +105,9 @@ export const fetchListItems = createAsyncThunk(
 
 export const addGroceryItem = createAsyncThunk(
   "lists/addGroceryItem",
-  async (payload: { 
-    name: string; 
-    quantity: number; 
+  async (payload: {
+    name: string;
+    quantity: number;
     listId: string;
     category?: string;
   }, { rejectWithValue }) => {
@@ -105,21 +119,21 @@ export const addGroceryItem = createAsyncThunk(
         completed: false,
         listId: payload.listId,
       };
-      
+
       const listResponse = await axios.get<List>(`${API_URL}/lists/${payload.listId}`);
       const list = listResponse.data;
-      
+
       const itemWithId: GroceryItem = {
         ...newItem,
         id: Date.now().toString(),
       };
-      
+
       const updatedList = {
         ...list,
         groceryItems: [...(list.groceryItems || []), itemWithId],
         items: (list.groceryItems?.length || 0) + 1,
       };
-      
+
       const response = await axios.put<List>(`${API_URL}/lists/${payload.listId}`, updatedList);
       return response.data;
     } catch (error) {
@@ -138,22 +152,22 @@ export const updateGroceryItem = createAsyncThunk(
     try {
       const listResponse = await axios.get<List>(`${API_URL}/lists/${payload.listId}`);
       const list = listResponse.data;
-      
-      const updatedGroceryItems = list.groceryItems.map(item => 
-        item.id === payload.itemId 
+
+      const updatedGroceryItems = list.groceryItems.map(item =>
+        item.id === payload.itemId
           ? { ...item, ...payload.updates }
           : item
       );
-      
+
       const updatedList = {
         ...list,
         groceryItems: updatedGroceryItems,
       };
-      
+
       const response = await axios.put<List>(`${API_URL}/lists/${payload.listId}`, updatedList);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error|| "Failed to update grocery item");
+      return rejectWithValue(error || "Failed to update grocery item");
     }
   }
 );
@@ -167,21 +181,21 @@ export const deleteGroceryItem = createAsyncThunk(
     try {
       const listResponse = await axios.get<List>(`${API_URL}/lists/${payload.listId}`);
       const list = listResponse.data;
-      
-      const updatedGroceryItems = list.groceryItems.filter(item => 
+
+      const updatedGroceryItems = list.groceryItems.filter(item =>
         item.id !== payload.itemId
       );
-      
+
       const updatedList = {
         ...list,
         groceryItems: updatedGroceryItems,
         items: updatedGroceryItems.length,
       };
-      
+
       const response = await axios.put<List>(`${API_URL}/lists/${payload.listId}`, updatedList);
       return response.data;
-    } catch (error ){
-      return rejectWithValue(error|| "Failed to delete grocery item");
+    } catch (error) {
+      return rejectWithValue(error || "Failed to delete grocery item");
     }
   }
 );
@@ -199,7 +213,7 @@ export const listSlice = createSlice({
         }
       }
     },
-    
+
     clearError: (state) => {
       state.error = null;
     },
@@ -218,7 +232,7 @@ export const listSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       .addCase(addList.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -244,7 +258,7 @@ export const listSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       .addCase(fetchListItems.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -262,7 +276,7 @@ export const listSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       .addCase(addGroceryItem.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -278,7 +292,7 @@ export const listSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       .addCase(updateGroceryItem.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -294,7 +308,7 @@ export const listSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       .addCase(deleteGroceryItem.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -309,13 +323,29 @@ export const listSlice = createSlice({
       .addCase(deleteGroceryItem.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      .addCase(updateList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateList.fulfilled, (state, action: PayloadAction<List>) => {
+        state.loading = false;
+        const index = state.lists.findIndex(list => list.id === action.payload.id);
+        if (index !== -1) {
+          state.lists[index] = action.payload;
+        }
+      })
+      .addCase(updateList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { 
+export const {
   toggleGroceryItemComplete,
-  clearError 
+  clearError
 } = listSlice.actions;
 
 export default listSlice.reducer;

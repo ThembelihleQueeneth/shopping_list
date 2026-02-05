@@ -303,6 +303,31 @@
       "items": 0,
       "date": "2/5/2026",
       "groceryItems": []
+    },
+    {
+      "id": "1be9",
+      "name": "Fruits for the week",
+      "userId": "ba74",
+      "items": 2,
+      "date": "2/5/2026",
+      "groceryItems": [
+        {
+          "name": "Banana",
+          "quantity": 1,
+          "category": "Fruit",
+          "completed": false,
+          "listId": "1be9",
+          "id": "1770319072192"
+        },
+        {
+          "name": "Orange",
+          "quantity": 1,
+          "category": "Fruit",
+          "completed": false,
+          "listId": "1be9",
+          "id": "1770319083580"
+        }
+      ]
     }
   ]
 }
