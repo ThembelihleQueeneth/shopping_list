@@ -201,6 +201,105 @@
       "id": "6d25",
       "name": "Gogo's Party",
       "userId": "c80a",
+      "items": 4,
+      "date": "2/5/2026",
+      "groceryItems": [
+        {
+          "name": "Milk",
+          "quantity": 1,
+          "category": "Dairy",
+          "completed": false,
+          "listId": "6d25",
+          "id": "1770317871391"
+        },
+        {
+          "name": "Lemon",
+          "quantity": 1,
+          "category": "Vegetables",
+          "completed": false,
+          "listId": "6d25",
+          "id": "1770317886601"
+        },
+        {
+          "name": "Pasta",
+          "quantity": 2,
+          "category": "Pantry",
+          "completed": false,
+          "listId": "6d25",
+          "id": "1770317910904"
+        },
+        {
+          "name": "zest",
+          "quantity": 1,
+          "category": "Dairy",
+          "completed": false,
+          "listId": "6d25",
+          "id": "1770318110644"
+        }
+      ]
+    },
+    {
+      "id": "1001",
+      "name": "God",
+      "userId": "c80a",
+      "items": 2,
+      "date": "2/5/2026",
+      "groceryItems": [
+        {
+          "name": "mkf",
+          "quantity": 1,
+          "category": "Uncategorized",
+          "completed": false,
+          "listId": "1001",
+          "id": "1770318082445"
+        },
+        {
+          "name": "dfdf",
+          "quantity": 1,
+          "category": "Dairy",
+          "completed": false,
+          "listId": "1001",
+          "id": "1770318089428"
+        }
+      ]
+    },
+    {
+      "id": "f6fa",
+      "name": "test",
+      "userId": "18cc",
+      "items": 0,
+      "date": "2/5/2026",
+      "groceryItems": []
+    },
+    {
+      "id": "cfe7",
+      "name": "angisati",
+      "userId": "18cc",
+      "items": 0,
+      "date": "2/5/2026",
+      "groceryItems": []
+    },
+    {
+      "id": "f696",
+      "name": "hoho",
+      "userId": "c80a",
+      "items": 1,
+      "date": "2/5/2026",
+      "groceryItems": [
+        {
+          "name": "test2",
+          "quantity": 1,
+          "category": "Uncategorized",
+          "completed": false,
+          "listId": "f696",
+          "id": "1770318055923"
+        }
+      ]
+    },
+    {
+      "id": "ee33",
+      "name": "mkk",
+      "userId": "c80a",
       "items": 0,
       "date": "2/5/2026",
       "groceryItems": []
