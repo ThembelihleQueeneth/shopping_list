@@ -2,7 +2,7 @@ import { type FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store/store";
 import { registerUser } from "../features/register_slice/RegisterSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
 interface FormErrors {
@@ -16,6 +16,7 @@ interface FormErrors {
 
 const Register: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { loading, error: apiError } = useSelector((state: RootState) => state.register);
 
   const [formData, setFormData] = useState({
@@ -137,7 +138,14 @@ const Register: FC = () => {
         cellphone: formData.cellphone,
         password: formData.password,
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.error("Registration failed:", err);
+      });
   };
 
   const getInputClassName = (fieldName: string): string => {

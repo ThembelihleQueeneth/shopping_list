@@ -63,6 +63,38 @@
       "email": "anele@gmail.com",
       "cellphone": "0893383838",
       "password": "123456"
+    },
+    {
+      "id": "c769",
+      "name": "Smoke",
+      "surname": "Vibes",
+      "email": "smoke@gmail.com",
+      "cellphone": "0789883938",
+      "password": "123456"
+    },
+    {
+      "id": "1604",
+      "name": "Smoke",
+      "surname": "Vibes",
+      "email": "smoke@gmail.com",
+      "cellphone": "0789883938",
+      "password": "123456"
+    },
+    {
+      "id": "7aff",
+      "name": "Gwijo",
+      "surname": "Lover",
+      "email": "lover@gmail.com",
+      "cellphone": "0878867656",
+      "password": "123456"
+    },
+    {
+      "id": "70e3",
+      "name": "loyiso",
+      "surname": "Dream",
+      "email": "loyiso@gmail.com",
+      "cellphone": "0856676567",
+      "password": "123456"
     }
   ],
   "lists": [
